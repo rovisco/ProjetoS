@@ -1,0 +1,12 @@
+<% include header %>
+<% include loginModal %>
+<% include messageModal %>
+
+<div class="container-fluid" id="mainBody">
+	<% if (!user) { %>
+		<h2>Welcome! Please log in.</h2>
+	<% } else { %>
+		<h2>Hello, <%= user.username %>.</h2>
+	<% } %>
+</div>
+<% include footer %>
