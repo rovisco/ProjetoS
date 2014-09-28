@@ -7,6 +7,7 @@ exports.account = function(req, res) {
   res.render('account', { user: req.user });
 };
 
+
 exports.getlogin = function(req, res) {
   res.render('login', { user: req.user, message: req.session.messages });
 };
@@ -53,6 +54,7 @@ exports.postlogin = function(req, res, next) {
 	  return res.send({ result: 'error', message : [info.message] });
       //return res.redirect('/login')
     }
+    req.logout(); 
     req.logIn(user, function(err) {
       if (err) { return next(err); }
       //return res.redirect('/');
@@ -66,6 +68,10 @@ exports.logout = function(req, res) {
   res.redirect('/');
 };
 
+//Process forgotten password
+/*exports.forgot = function(req, res, next) {
+
+}*/
 
 exports.changePassword = function(req, res, next) {
   	

@@ -61,8 +61,8 @@ $(document).ready(function(){
 						$('#loginModal').modal('hide');
 						$('#messageModal').modal('show');
 						$("#loginButton").removeAttr('disabled');
-						//window.location.replace("/");
-						location.reload();
+						window.location.replace("/");
+						//location.reload();
 					}
 				}
 			});
@@ -308,7 +308,8 @@ function admin(){
 		error: function (xhr, ajaxOptions, thrownError) {
 			console.log("Error:"+xhr.status);
 			if(xhr.status == 403){ 
-				window.location.replace("/login");
+				//window.location.replace("/login");
+				login();	
 			}else{
 				var contents = new EJS({url: 'templates/error.ejs'}).render({error : xhr.status });
 				$('#mainBody').html(contents);
