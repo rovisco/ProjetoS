@@ -17,6 +17,14 @@ function login(){
 	return false;
 }
 
+function forgot(){	
+	$('#loginModal').modal("hide");
+    $('#forgotErrorAlert').hide();
+    $('.form-group').removeClass('has-success').removeClass('has-error'); //clean previous variation messages
+	$('#forgotModal').modal('show');
+	return false;
+}
+
 function cancelEditUserProfile()
 {	
 	$("#userProfileForm").attr('disabled',' ' );
@@ -61,8 +69,8 @@ $(document).ready(function(){
 						$('#loginModal').modal('hide');
 						$('#messageModal').modal('show');
 						$("#loginButton").removeAttr('disabled');
-						window.location.replace("/");
-						//location.reload();
+						//window.location.replace("/");
+						location.reload();
 					}
 				}
 			});
@@ -181,8 +189,63 @@ $(document).ready(function(){
 			element.addClass('valid').closest('.form-group').removeClass('has-error').addClass('has-success');
 		}
 	});
-	
-	$("#signupForm").validate({
+
+    //reset password - new pass form
+    $("#resetPasswordForm").validate({
+	rules: {
+			password: {
+				required: true,
+				minlength: 5
+			},
+			confirm_password: {
+				required: true,
+				minlength: 5,
+				equalTo: "#password"
+			}
+		},
+		messages: {
+			password: {
+				required: "Please provide a password",
+				minlength: jQuery.format("Your password must be at least {0} characters long")
+			},
+			confirm_password: {
+				required: "Please provide a password",
+				minlength: jQuery.format("Your password must be at least {0} characters long"),
+				equalTo: "Please enter the same password as above"
+			}
+		},/*
+		submitHandler: function(form) {
+			$.ajax({
+				type: "POST",
+                url: "/resetPassword", //FALTA o TOKEN
+				data: $(form).serialize(),
+				success: function(res){
+					console.log("res=",JSON.stringify(res));
+					var contents = new EJS({url: 'templates/message.ejs'}).render(res);
+					$('#modalMessageBody').html(contents);
+					$('#changePasswordModal').modal('hide');
+					$('#messageModal').modal('show');
+					$("#ChangePasswordSaveButton").removeAttr('disabled');
+				}
+			});
+			
+			$('.form-group').removeClass('has-success').removeClass('has-error');
+			$('#ChangePasswordSaveButton').attr('disabled','disabled');
+			form.reset();
+			return false;
+		},*/
+		
+		 highlight: function(element) {
+			$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+		},
+		success: function(element) {
+			element.addClass('valid').closest('.form-group').removeClass('has-error').addClass('has-success');
+		}
+	});
+
+    
+    
+    $("#signupForm").validate({
 		rules: {
 			username: {
 				required: true,
@@ -251,6 +314,53 @@ $(document).ready(function(){
 			
 			$('.form-group').removeClass('has-success').removeClass('has-error');
 			$('#userRegisterButton').attr('disabled','disabled');
+			form.reset();
+		},
+		 highlight: function(element) {
+			$(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+		},
+		success: function(element) {
+			element.addClass('valid').closest('.form-group').removeClass('has-error').addClass('has-success');
+		}
+	});
+    
+    //Validade forgot password form input 
+	$("#forgotForm").validate({
+		rules: {		
+			email: {
+				required: true,
+				email: true
+			}
+		},
+		messages: {
+			email: "Please enter a valid email address"
+		},
+		submitHandler: function(form) {
+			$.ajax({
+				type: "POST",
+                url: "/forgot",
+				data: $(form).serialize(),
+				success: function(res){
+					console.log("res=",JSON.stringify(res));
+					$("forgotButton").removeAttr('disabled');
+					
+					if (res.result == 'error'){
+						var contents = new EJS({url: 'templates/message.ejs'}).render(res);
+						$('#modalMessageBody').html(contents);
+						$('#messageModal').modal('show');
+					}else{		
+						$('#forgotModal').modal('hide');
+                        var contents = new EJS({url: 'templates/message.ejs'}).render(res);
+						$('#modalMessageBody').html(contents);
+						$('#messageModal').modal('show');
+                        form.reset();
+					}
+
+				}
+			});
+			
+			$('.form-group').removeClass('has-success').removeClass('has-error');
+			$('#forgotButton').attr('disabled','disabled');
 			form.reset();
 		},
 		 highlight: function(element) {

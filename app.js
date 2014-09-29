@@ -50,7 +50,10 @@ app.get('/', basic_routes.index);
 app.get('/account', pass.ensureAuthenticated, user_routes.account);
 app.get('/login', user_routes.getlogin);
 app.get('/register', user_routes.register);
-//app.post('/forgot', user_routes.forgot);
+app.post('/forgot', user_routes.forgot);
+app.get('/reset/:token',user_routes.resetPassword);
+app.post('/resetPassword/:token',user_routes.postResetPassword);
+
 app.post('/changePassword', user_routes.changePassword);
 app.post('/changeUser', user_routes.changeUser);
 app.post('/login', user_routes.postlogin);

@@ -29,10 +29,16 @@
 
       </div>
       <div class="modal-footer">
-        <button id="loginButton" type="submit" class="btn btn-primary">Submit</button>
-		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <div class="col-sm-4">
+            <button type="button" class="btn btn-default" nohref onclick="forgot();return false;" > Forgot Password?</button>
+        </div>  
+        <div class="col-sm-8">
+            <button id="loginButton" type="submit" class="btn btn-primary">Submit</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
       </div>
-	  </form>	  
+	  </form>	
+
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->

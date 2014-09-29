@@ -29,7 +29,9 @@ var userSchema = new Schema({
   email: { type: String, required: true },
   password: { type: String, required: true},
   admin: { type: Boolean, required: true },
-  accessToken: { type: String }
+  accessToken: { type: String },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date }    
 });
 
 
