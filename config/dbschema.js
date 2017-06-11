@@ -3,11 +3,18 @@ var mongoose = require('mongoose'),
 	SALT_WORK_FACTOR = 10;
 exports.mongoose = mongoose;
 
+var db_name = "domotics";
+
 // Database connect
 var uristring = 
   process.env.MONGOLAB_URI || 
   process.env.MONGOHQ_URL || 
   'mongodb://localhost/test';
+
+//openshift env vars when available:
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+  uristring = process.env.OPENSHIFT_MONGODB_DB_URL + db_name;
+}
 
 var mongoOptions = { db: { safe: true }};
 

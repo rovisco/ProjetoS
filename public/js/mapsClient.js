@@ -50,8 +50,6 @@ function handleGetCurrentPosition(location){
       
 }
 
-
-
   function initMap() {
     if(navigator.geolocation) navigator.geolocation.getCurrentPosition(handleGetCurrentPosition, handle_errors);
   }

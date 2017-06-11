@@ -98,6 +98,14 @@ app.listen(8000, function() {
 var httpServer = http.createServer(app);
 var httpsServer = https.createServer(credentials, app);
 
+
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8000
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1'
+
 httpServer.listen(8000);
 httpsServer.listen(8443);
+
+httpServer.listen(server_port, server_ip_address, function () {
+  console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
+});
 
