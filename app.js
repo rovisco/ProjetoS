@@ -4,7 +4,20 @@ var express = require('express')
   , pass = require('./config/pass')
   , passport = require('passport')
   , basic_routes = require('./routes/basic')
-  , user_routes = require('./routes/user');
+  , survey_routes = require('./routes/surveyserver')
+  , user_routes = require('./routes/user')
+  , maps_routes = require('./routes/maps')
+  , domotics_routes = require('./routes/domoticsserver');
+
+var fs = require('fs');
+var http = require('http');
+var https = require('https');
+
+
+var privateKey  = fs.readFileSync('key.pem', 'utf8');
+var certificate = fs.readFileSync('cert.pem', 'utf8');
+
+var credentials = {key: privateKey, cert: certificate};
   
 // configure Express
 app.configure(function() {
@@ -65,7 +78,26 @@ app.get('/user/cancel', pass.ensureAuthenticatedApi, user_routes.cancelUser);
 //app.get('/admin', pass.ensureAuthenticated, pass.ensureAdmin(), user_routes.admin);
 app.get('/logout', user_routes.logout);
 
+app.get('/survey/create', survey_routes.create);
+app.get('/survey/manage', survey_routes.manage);
+app.post('/survey/create', survey_routes.postCreate);
+
+app.get('/domotics/home', domotics_routes.home);
+app.get('/domotics/turn/:plug/:status', domotics_routes.turn);
+
+
+app.get('/maps/home', maps_routes.home);
+
+/*
 app.listen(8000, function() {
   console.log('Express server listening on port 8000');
+    
 });
+*/
+    
+var httpServer = http.createServer(app);
+var httpsServer = https.createServer(credentials, app);
+
+httpServer.listen(8000);
+httpsServer.listen(8443);
 

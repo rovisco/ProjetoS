@@ -309,7 +309,9 @@ exports.resetPassword = function(req, res, next) {
   db.userModel.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } },function(err, user){
     if (!user) {
         //res.send({ result: 'error', message : 'Password reset token is invalid or has expired.'});
-        return res.redirect('/forgot');
+        //return res.redirect('/');
+        res.render('error', {user : null , errorMessage: 'Password reset token is invalid or has expired.'  });
+        return;
     }
     //res.send({ result: 'success', message : 'Password reset token is valid.'});
       console.log("reset password for user = "+user.username+"token="+ req.params.token);

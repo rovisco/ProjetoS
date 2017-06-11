@@ -1,0 +1,28 @@
+<% include header %>
+<% include messageModal %>
+
+<div class="container-fluid">
+<h2>Create a new survey</h2>
+<form role="form" action="/survey" method="post" id="createForm" >
+  <div class="form-group">
+    <label for="title">Survey Title</label>
+    <input type="text" class="form-control" id="title" name="title" placeholder="Enter the survey title">
+  </div>
+  <div class="form-group">
+    <label for="description">Survey Description</label>
+    <textarea id="description" name="description" class="form-control" placeholder="Enter the survey description" rows="4"></textarea>
+  </div>
+ <div class="checkbox">
+  <label><input type="checkbox" value="activated">
+    Active
+  </label>
+</div>
+  
+   
+  <button type="submit" id="surveyCreateButton" class="btn btn-primary btn-lg active">Submit</button>
+  <button type="reset" class="btn btn-default btn-lg active">Clear</button>
+  
+</form>
+</div>
+
+<% include footer %>
